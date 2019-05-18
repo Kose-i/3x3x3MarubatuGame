@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BallGenerator : MonoBehaviour {
 
-  public GameObject spherePrefab;
+  public GameObject BallPrefab;
 
   public string NowTurn = "Black";
   public string NextTurn = "White";
@@ -13,8 +13,13 @@ public class BallGenerator : MonoBehaviour {
   }
   decimal putSelect() {
     if (Input.GetKeyDown(KeyCode.Space)) {
-      GameObject go = Instantiate(spherePrefab) as GameObject;
+      GameObject go = Instantiate(BallPrefab) as GameObject;
       go.transform.position = new Vector3(0, 10, 0);
+      if (NowTurn == "Black") {
+        go.GetComponent<Renderer>().material.color = Color.black;
+      } else {
+        go.GetComponent<Renderer>().material.color = Color.white;
+      }
       return 1;
     } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
       return 1;
