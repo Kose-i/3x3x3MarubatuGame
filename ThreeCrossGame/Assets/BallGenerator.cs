@@ -12,34 +12,57 @@ public class BallGenerator : MonoBehaviour {
   public float yFirstThread = 200;
   public float ySecondThread = 400;
 
-  decimal[,,] BoardData = new decimal[3,3,3];// 0 (space), 1(black), 2(white)
+  int[,,] BoardData = new int[3,3,3];// 0 (space), 1(black), 2(white)
 
   // Use this for initialization
   void Start () {
+    for (int i = 0;i < 3;++i) {
+      for (int j = 0;j < 3;++j) {
+        for (int k = 0;k < 3;++k) {
+          BoardData[i,j,k] = 0;
+        }
+      }
+    }
   }
 
-  float Isless(float ls, float rs) {
+  int Isless(float ls, float rs) {
     if (ls < rs) return 1;
     return 0;
   }
 
   decimal putSelect() {
     if (Input.GetMouseButtonDown(0)) {
-      GameObject go = Instantiate(BallPrefab) as GameObject;
 
       /*Position select*/
       float x_pos = Input.mousePosition.x;
       float y_pos = Input.mousePosition.y;
-      float xPos = Isless(xFirstThread, x_pos) + Isless(xSecondThread, x_pos);
-      float yPos = Isless(yFirstThread, y_pos) + Isless(ySecondThread, y_pos);
-		  Debug.Log(x_pos);
-      Debug.Log("y_ps:"+y_pos);
-      go.transform.position = new Vector3(xPos*10, 10, yPos*10);
+      int xPos = Isless(xFirstThread, x_pos) + Isless(xSecondThread, x_pos);
+      int yPos = Isless(yFirstThread, y_pos) + Isless(ySecondThread, y_pos);
 
+      /*Put GameData*/
+      if (!(0<=xPos && xPos<3)) return 0;
+      if (!(0<=yPos && yPos<3)) return 0;
+      if (BoardData[xPos,yPos,2] != 0) return 0; //max line
+      Debug.Log("xPos:"+xPos+"yPos:"+yPos+"BoardData[xPos,yPos,i]:"+BoardData[xPos,yPos,1]);
+
+      GameObject go = Instantiate(BallPrefab) as GameObject;
+      go.transform.position = new Vector3(xPos*10, 10, yPos*10);
       /*color select*/
       if (NowTurn == "Black") {
+        for (int i = 0;i < 3;++i) {
+          if (BoardData[xPos,yPos,i] == 0) {
+            BoardData[xPos,yPos,i] = 1;
+            break;
+          }
+        }
         go.GetComponent<Renderer>().material.color = Color.black;
       } else {
+        for (int i = 0;i < 3;++i) {
+          if (BoardData[xPos,yPos,i] == 0) {
+            BoardData[xPos,yPos,i] = 2;
+            break;
+          }
+        }
         go.GetComponent<Renderer>().material.color = Color.white;
       }
       return 1;
