@@ -46,7 +46,7 @@ public class BallGenerator : MonoBehaviour {
       Debug.Log("xPos:"+xPos+"yPos:"+yPos+"BoardData[xPos,yPos,i]:"+BoardData[xPos,yPos,1]);
 
       GameObject go = Instantiate(BallPrefab) as GameObject;
-      go.transform.position = new Vector3(xPos*10, 10, yPos*10);
+      go.transform.position = new Vector3(xPos*2, 10, yPos*2);
       /*color select*/
       if (NowTurn == "Black") {
         for (int i = 0;i < 3;++i) {
