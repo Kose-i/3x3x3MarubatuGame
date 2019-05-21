@@ -12,7 +12,7 @@ public class BallGenerator : MonoBehaviour {
   public float yFirstThread = 200;
   public float ySecondThread = 400;
 
-  int[,,] BoardData = new int[3,3,3];// 0 (space), 1(black), 2(white)
+  public int[,,] BoardData = new int[3,3,3];// 0 (space), 1(black), 2(white)
 
   // Use this for initialization
   void Start () {
@@ -28,6 +28,17 @@ public class BallGenerator : MonoBehaviour {
   int Isless(float ls, float rs) {
     if (ls < rs) return 1;
     return 0;
+  }
+
+  bool isfinish(string str) {
+    if (str == "Black") {
+      return true;
+    } else if (str == "White"){
+      return true;
+    } else {
+      Debug.Log("Not knowing str error happend [BallGenerator-isfinished]");
+      return false;
+    }
   }
 
   decimal putSelect() {
@@ -56,6 +67,9 @@ public class BallGenerator : MonoBehaviour {
           }
         }
         go.GetComponent<Renderer>().material.color = Color.black;
+        if (isfinish("Black")) {
+          Debug.Log("Black Win");
+        }
       } else {
         for (int i = 0;i < 3;++i) {
           if (BoardData[xPos,yPos,i] == 0) {
@@ -64,6 +78,9 @@ public class BallGenerator : MonoBehaviour {
           }
         }
         go.GetComponent<Renderer>().material.color = Color.white;
+        if (isfinish("White")) {
+          Debug.Log("White Win");
+        }
       }
       return 1;
     } else {
