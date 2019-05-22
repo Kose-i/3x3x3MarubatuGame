@@ -30,7 +30,7 @@ public class BallGenerator : MonoBehaviour {
     return 0;
   }
 
-  bool isfinish(string str) {
+  bool isfinish(string str, int x,int y,int z) {
     if (str == "Black") {
       return true;
     } else if (str == "White"){
@@ -60,25 +60,29 @@ public class BallGenerator : MonoBehaviour {
       go.transform.position = new Vector3(xPos*2, 10, yPos*2);
       /*color select*/
       if (NowTurn == "Black") {
+        int zPos = 0;
         for (int i = 0;i < 3;++i) {
           if (BoardData[xPos,yPos,i] == 0) {
             BoardData[xPos,yPos,i] = 1;
+            zPos = i;
             break;
           }
         }
         go.GetComponent<Renderer>().material.color = Color.black;
-        if (isfinish("Black")) {
+        if (isfinish("Black", xPos, yPos, zPos)) {
           Debug.Log("Black Win");
         }
       } else {
+        int zPos = 0;
         for (int i = 0;i < 3;++i) {
           if (BoardData[xPos,yPos,i] == 0) {
             BoardData[xPos,yPos,i] = 2;
+            zPos = i;
             break;
           }
         }
         go.GetComponent<Renderer>().material.color = Color.white;
-        if (isfinish("White")) {
+        if (isfinish("White", xPos, yPos, zPos)) {
           Debug.Log("White Win");
         }
       }
