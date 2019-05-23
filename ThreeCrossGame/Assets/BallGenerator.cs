@@ -31,10 +31,11 @@ public class BallGenerator : MonoBehaviour {
   }
 
   bool isfinish(string str, int x,int y,int z) {
+    Debug.Log(str+" x:"+x+" y:"+y+" z:"+z);
     if (str == "Black") {
-      return true;
+      return false;
     } else if (str == "White"){
-      return true;
+      return false;
     } else {
       Debug.Log("Not knowing str error happend [BallGenerator-isfinished]");
       return false;
@@ -54,7 +55,6 @@ public class BallGenerator : MonoBehaviour {
       if (!(0<=xPos && xPos<3)) return 0;
       if (!(0<=yPos && yPos<3)) return 0;
       if (BoardData[xPos,yPos,2] != 0) return 0; //max line
-      Debug.Log("xPos:"+xPos+"yPos:"+yPos+"BoardData[xPos,yPos,i]:"+BoardData[xPos,yPos,1]);
 
       GameObject go = Instantiate(BallPrefab) as GameObject;
       go.transform.position = new Vector3(xPos*2, 10, yPos*2);
