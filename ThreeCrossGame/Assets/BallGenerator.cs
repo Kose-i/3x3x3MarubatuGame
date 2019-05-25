@@ -30,14 +30,41 @@ public class BallGenerator : MonoBehaviour {
     return 0;
   }
 
+  bool checkBoard(int target, int x, int y, int z) {
+    if (x < 0 || y < 0 || z < 0 || 2 < x || 2 < y || 2 < z) return false;
+    return (BoardData[x,y,z] == target);
+  }
+
+  bool isCheck(int x,int y, int z, int target) {
+    /*立体斜め*/
+    if ((checkBoard(target, x-1,y-1,z-1) && (checkBoard(target, x-2,y-2,z-2) || (checkBoard(target, x+1,y+1,z+1)))) || (checkBoard(target, x+1,y+1,z+1) && (checkBoard(target, x+2,y+2,z+2))) ) return true;
+    else if ((checkBoard(target, x+1,y-1,z-1) && (checkBoard(target, x+2,y-2,z-2) || (checkBoard(target, x-1,y+1,z+1)))) || (checkBoard(target, x-1,y+1,z+1) && (checkBoard(target, x-2,y+2,z+2))) ) return true;
+    else if ((checkBoard(target, x+1,y+1,z-1) && (checkBoard(target, x+2,y+2,z-2) || (checkBoard(target, x-1,y-1,z+1)))) || (checkBoard(target, x-1,y-1,z+1) && (checkBoard(target, x-2,y-2,z+2))) ) return true;
+    else if ((checkBoard(target, x-1,y+1,z-1) && (checkBoard(target, x-2,y+2,z-2) || (checkBoard(target, x+1,y-1,z+1)))) || (checkBoard(target, x+1,y-1,z+1) && (checkBoard(target, x+2,y-2,z+2))) ) return true;
+    /*平面斜め*/
+    if ((checkBoard(target, x,y-1,z-1) && (checkBoard(target, x,y-2,z-2) || (checkBoard(target, x,y+1,z+1)))) || (checkBoard(target, x,y+1,z+1) && (checkBoard(target, x,y+2,z+2))) ) return true;
+    else if ((checkBoard(target, x,y+1,z-1) && (checkBoard(target, x,y+2,z-2) || (checkBoard(target, x,y-1,z+1)))) || (checkBoard(target, x,y-1,z+1) && (checkBoard(target, x,y-2,z+2))) ) return true;
+    else if ((checkBoard(target, x-1,y,z-1) && (checkBoard(target, x-2,y,z-2) || (checkBoard(target, x+1,y,z+1)))) || (checkBoard(target, x+1,y,z+1) && (checkBoard(target, x+2,y,z+2))) ) return true;
+    else if ((checkBoard(target, x+1,y,z-1) && (checkBoard(target, x+2,y,z-2) || (checkBoard(target, x-1,y,z+1)))) || (checkBoard(target, x-1,y,z+1) && (checkBoard(target, x-2,y,z+2))) ) return true;
+    else if ((checkBoard(target, x-1,y-1,z) && (checkBoard(target, x-2,y-2,z) || (checkBoard(target, x+1,y+1,z)))) || (checkBoard(target, x+1,y+1,z) && (checkBoard(target, x+2,y+2,z))) ) return true;
+    else if ((checkBoard(target, x+1,y-1,z) && (checkBoard(target, x+2,y-2,z) || (checkBoard(target, x-1,y+1,z)))) || (checkBoard(target, x-1,y+1,z) && (checkBoard(target, x-2,y+2,z))) ) return true;
+    /*each equal x,y,z*/
+    else if (checkBoard(target, 0,y,z) && checkBoard(target, 1,y,z) && checkBoard(target, 2,y,z) ) return true;
+    else if (checkBoard(target, x,0,z) && checkBoard(target, x,1,z) && checkBoard(target, x,2,z) ) return true;
+    else if (checkBoard(target, x,y,0) && checkBoard(target, x,y,1) && checkBoard(target, x,y,2) ) return true;
+    else return false;
+  }
+
   bool isfinish(string str, int x,int y,int z) {
-    Debug.Log(str+" x:"+x+" y:"+y+" z:"+z);
-    if (str == "Black") {
-      return false;
-    } else if (str == "White"){
-      return false;
+    //Debug.Log(str+" x:"+x+" y:"+y+" z:"+z);
+    if (str == "Black" && isCheck(x,y,z, 1)) {
+      Debug.Log("[isfinish]:Black win");
+      return true;
+    } else if (str == "White" && isCheck(x,y,z,2)){
+      Debug.Log("[isfinish]:White win");
+      return true;
     } else {
-      Debug.Log("Not knowing str error happend [BallGenerator-isfinished]");
+      //Debug.Log("Not knowing str error happend [BallGenerator-isfinished]");
       return false;
     }
   }
