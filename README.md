@@ -15,3 +15,5 @@
 [debファイル実行方法](https://linuxfan.info/post-1881)
 
 [Unity Install](https://forum.unity.com/threads/unity-on-linux-release-notes-and-known-issues.350256/)
+
+[Linux (Ubuntu) で C# の IDE を利用する方法 ～ MonoDevelop をインストール](https://csharp.keicode.com/devenv/mono-develop.php)
